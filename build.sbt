@@ -16,6 +16,7 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"
+libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.34"
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 

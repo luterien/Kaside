@@ -1,11 +1,9 @@
 # --- !Ups
-
-set ignorecase true;
-
 CREATE TABLE Bookmarks (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(100) NOT NULL,
   url VARCHAR(250) NOT NULL,
+  tags VARCHAR(250),
   PRIMARY KEY (id)
 );
 

@@ -8,24 +8,25 @@ import anorm.SqlParser.{str}
   * Created by asus on 19.2.2016.
   */
 
-case class Bookmark(title: String, url: String)
+case class Bookmark(title: String, url: String, tags: String)
 
 object Bookmark {
 
-  val defaultParser = str("TITLE") ~ str("URL") map {
-    case title ~ url  => Bookmark(title, url)
+  val defaultParser = str("title") ~ str("url") ~ str("tags") map {
+    case title ~ url ~ tags => Bookmark(title, url, tags)
   }
 
   def findAll = DB.withConnection { implicit c =>
-    SQL("SELECT * FROM BOOKMARKS;").executeQuery().list(defaultParser)
+    SQL("SELECT * FROM Bookmarks;").executeQuery().list(defaultParser)
   }
 
   def findByTitle(title: String) = ""
 
   def add(bookmark: Bookmark){
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO BOOKMARKS(TITLE, URL) VALUES ({title}, {url});")
-        .on('title -> bookmark.title, 'url -> bookmark.url).executeInsert()
+      SQL("INSERT INTO BOOKMARKS(title, url, tags) VALUES ({title}, {url}, {tags});")
+        .on('title -> bookmark.title, 'url -> bookmark.url, 'tags -> bookmark.tags)
+        .executeInsert()
     }
   }
 

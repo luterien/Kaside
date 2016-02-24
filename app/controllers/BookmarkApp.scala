@@ -13,14 +13,15 @@ import models.Bookmark
   * Created by asus on 19.2.2016.
   */
 
-case class BookmarkData(title: String, url: String)
+case class BookmarkData(title: String, url: String, tags: String)
 
 class BookmarkApp extends Controller {
 
   val bookmarkForm = Form(
     mapping(
       "title" -> text,
-      "url" -> text
+      "url" -> text,
+      "tags" -> text
     )(BookmarkData.apply)(BookmarkData.unapply)
   )
 
@@ -30,8 +31,8 @@ class BookmarkApp extends Controller {
 
   def add = Action {
     implicit request =>
-      val bd: BookmarkData = bookmarkForm.bindFromRequest.get
-      Bookmark.add(new Bookmark(bd.title, bd.url))
+      val data = bookmarkForm.bindFromRequest.get
+      Bookmark.add(new Bookmark(data.title, data.url, data.tags))
       Redirect(routes.BookmarkApp.index)
   }
 

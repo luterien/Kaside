@@ -1,0 +1,17 @@
+@(bookmarks: Seq[Bookmark], bookmarkForm: Form[BookmarkData])(implicit messages: Messages)
+
+<div>My Bookmarks</div>
+
+<div>
+@bookmarks.map { bookmark =>
+    <div><a href="@bookmark.url">@bookmark.title</a></div>
+}
+</div>
+
+<div>
+    <form action="@routes.BookmarkApp.add()" method="post">
+        <input type="text" name="title" placeholder="Title" required>
+        <input type="text" name="url" placeholder="Url" required>
+        <input type="submit" value="Add">
+    </form>
+</div>

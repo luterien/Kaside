@@ -1,17 +1,33 @@
 @(bookmarks: Seq[Bookmark], bookmarkForm: Form[BookmarkData])(implicit messages: Messages)
 
-<div>My Bookmarks</div>
+<link href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")" rel="stylesheet">
 
-<div>
-@bookmarks.map { bookmark =>
-    <div><a href="@bookmark.url">@bookmark.title</a></div>
-}
+
+
+<div class="container theme-showcase">
+
+    <div class="jumbotron">
+        <h2>My Bookmarks</h2>
+    </div>
+
+    @bookmarks.map { bookmark =>
+        <p>
+            <a href="@bookmark.url">@bookmark.title</a>
+            <a href="" class="btn btn-link">https://twitter.github.io/scala_school/</a>
+            <a href="" class="btn btn-sm btn-primary">scala school</a>
+            <button type="button" class="btn btn-sm btn-success">scala</button>
+            <button type="button" class="btn btn-sm btn-success">read later</button>
+        </p>
+    }
+
+    <div>
+        <form action="@routes.BookmarkApp.add()" method="post">
+            <input type="text" name="title" placeholder="Title" required>
+            <input type="text" name="url" placeholder="Url" required>
+            <input type="submit" value="Add">
+        </form>
+    </div>
+
 </div>
 
-<div>
-    <form action="@routes.BookmarkApp.add()" method="post">
-        <input type="text" name="title" placeholder="Title" required>
-        <input type="text" name="url" placeholder="Url" required>
-        <input type="submit" value="Add">
-    </form>
-</div>
+

@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   evolutions
 )
 
+libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
 

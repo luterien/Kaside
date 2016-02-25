@@ -12,8 +12,8 @@
         <p>
             <a href="@bookmark.url">@bookmark.title</a>
             <a href="" class="btn btn-link">@bookmark.url</a>
-            @if(!bookmark.tags.isEmpty){
-                <button type="button" class="btn btn-sm btn-success">@bookmark.tags</button>
+            @for(tag <- bookmark.tags.split(",") if !bookmark.tags.isEmpty){
+            <button type="button" class="btn btn-sm btn-success">@tag</button>
             }
         </p>
     }

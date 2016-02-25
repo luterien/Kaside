@@ -3,7 +3,7 @@ package models
 import play.api.db.DB
 import anorm._
 import play.api.Play.current
-import anorm.SqlParser.{str}
+import anorm.SqlParser._
 /**
   * Created by asus on 19.2.2016.
   */
@@ -17,6 +17,10 @@ object Bookmark {
   }
 
   def findAll = DB.withConnection { implicit c =>
+    SQL("SELECT * FROM Bookmarks;").executeQuery().list(defaultParser)
+  }
+
+  def filterBookmarks(tags: String) = DB.withConnection { implicit c =>
     SQL("SELECT * FROM Bookmarks;").executeQuery().list(defaultParser)
   }
 

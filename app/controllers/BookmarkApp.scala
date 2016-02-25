@@ -29,6 +29,10 @@ class BookmarkApp extends Controller {
     Ok(views.html.index(Bookmark.findAll, bookmarkForm))
   }
 
+  def filterBookmarks(tags: String) = Action {
+    Ok(views.html.index(Bookmark.filterBookmarks(tags), bookmarkForm))
+  }
+
   def add = Action {
     implicit request =>
       val data = bookmarkForm.bindFromRequest.get

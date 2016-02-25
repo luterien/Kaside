@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.BookmarkApp.index
+GET     /:tags                      controllers.BookmarkApp.filterBookmarks(tags)
 POST    /add                        controllers.BookmarkApp.add
 
 # Map static resources from the /public folder to the /assets URL path

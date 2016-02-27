@@ -20,16 +20,21 @@ object Bookmark {
     SQL("SELECT * FROM Bookmarks;").executeQuery().list(defaultParser)
   }
 
+  def findUserBookmarks(id: Int) = DB.withConnection { implicit c =>
+    SQL("SELECT * FROM Bookmarks WHERE acc_id={acc_id};").
+      on('acc_id -> id).executeQuery().list(defaultParser)
+  }
+
   def filterBookmarks(tags: String) = DB.withConnection { implicit c =>
     SQL("SELECT * FROM Bookmarks;").executeQuery().list(defaultParser)
   }
 
   def findByTitle(title: String) = ""
 
-  def add(bookmark: Bookmark){
+  def add(b: Bookmark, id: Int){
     DB.withConnection { implicit c =>
-      SQL("INSERT INTO BOOKMARKS(title, url, tags) VALUES ({title}, {url}, {tags});")
-        .on('title -> bookmark.title, 'url -> bookmark.url, 'tags -> bookmark.tags)
+      SQL("INSERT INTO BOOKMARKS(title, url, tags, acc_id) VALUES ({title}, {url}, {tags}, {acc_id});")
+        .on('title -> b.title, 'url -> b.url, 'tags -> b.tags, 'acc_id -> id)
         .executeInsert()
     }
   }

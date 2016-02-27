@@ -27,17 +27,18 @@ class BookmarkApp extends Controller with AuthElement with AuthConfigImpl {
   )
 
   def index = StackAction(AuthorityKey -> NormalUser) { implicit request =>
-    Ok(views.html.index(Bookmark.findAll, bookmarkForm))
+    Ok(views.html.index(Bookmark.findUserBookmarks(loggedIn.id), bookmarkForm))
   }
 
   def filterBookmarks(tags: String) = Action {
     Ok(views.html.index(Bookmark.filterBookmarks(tags), bookmarkForm))
   }
 
-  def add = Action {
+  def add = StackAction(AuthorityKey -> NormalUser) {
     implicit request =>
+      val user = loggedIn
       val data = bookmarkForm.bindFromRequest.get
-      Bookmark.add(new Bookmark(data.title, data.url, data.tags))
+      Bookmark.add(new Bookmark(data.title, data.url, data.tags), user.id)
       Redirect(routes.BookmarkApp.index)
   }
 

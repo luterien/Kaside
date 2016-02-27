@@ -16,7 +16,8 @@ libraryDependencies ++= Seq(
   "jp.t2v" %% "play2-auth"        % "0.14.1",
   "jp.t2v" %% "play2-auth-social" % "0.14.1", // for social login
   "jp.t2v" %% "play2-auth-test"   % "0.14.1" % "test",
-  play.sbt.Play.autoImport.cache // only when you use default IdContainer
+  play.sbt.Play.autoImport.cache, // only when you use default IdContainer
+  "org.mindrot" % "jbcrypt" % "0.3m"
 )
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"

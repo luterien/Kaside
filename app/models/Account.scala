@@ -4,6 +4,7 @@ import anorm.SqlParser._
 import anorm._
 import play.api.Play.current
 import play.api.db.DB
+import org.mindrot.jbcrypt.BCrypt
 
 /**
   * Created by asus on 26.2.2016.
@@ -19,6 +20,7 @@ object Account {
 
   def authenticate(email: String, password: String): Option[Account] =
     findByEmail(email).filter { account => account.password == password }
+    //findByEmail(email).filter { account => BCrypt.checkpw(password, account.password) }
 
   def findByEmail(email: String): Option[Account] = DB.withConnection { implicit c =>
     SQL("SELECT * FROM Accounts WHERE email={email}")
@@ -31,8 +33,9 @@ object Account {
   }
 
   def create(email: String, password: String, name: String, role: Role) = DB.withConnection { implicit c =>
+    val pw_hash = BCrypt.hashpw(password, BCrypt.gensalt())
     SQL("INSERT INTO BOOKMARKS(email, password, name, role) VALUES ({email}, {password}, {name}, {role});")
-      .on('email -> email, 'password -> password, 'name -> name, 'role -> role.toString)
+      .on('email -> email, 'password -> pw_hash, 'name -> name, 'role -> role.toString)
       .executeInsert()
   }
 

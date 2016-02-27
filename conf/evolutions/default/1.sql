@@ -7,5 +7,15 @@ CREATE TABLE Bookmarks (
   PRIMARY KEY (id)
 );
 
+CREATE TABLE Accounts (
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(200) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  role VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
+);
+
 # --- !Downs
 DROP TABLE Bookmarks;
+DROP TABLE Accounts;

@@ -12,7 +12,11 @@ libraryDependencies ++= Seq(
   ws,
   specs2 % Test,
   "com.typesafe.play" %% "anorm" % "2.4.0",
-  evolutions
+  evolutions,
+  "jp.t2v" %% "play2-auth"        % "0.14.1",
+  "jp.t2v" %% "play2-auth-social" % "0.14.1", // for social login
+  "jp.t2v" %% "play2-auth-test"   % "0.14.1" % "test",
+  play.sbt.Play.autoImport.cache // only when you use default IdContainer
 )
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.4"

@@ -1,0 +1,23 @@
+.favicon {
+    width: 20px; height: 20px;
+}
+
+.go-right {
+    text-align: right;
+}
+
+.ma-row {
+    margin-top: 15px;
+}
+
+.sw {
+    width: 920px;
+}
+
+.rmv-mrg {
+    margin-top: 10px; margin-bottom: 10px;
+}
+
+.cs-cnt {
+    background: #eee; padding: 10px 0 15px;
+}

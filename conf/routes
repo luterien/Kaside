@@ -12,6 +12,8 @@ POST    /add                        controllers.BookmarkApp.add
 GET     /accounts/login             controllers.Session.login
 POST    /accounts/auth              controllers.Session.authenticate
 GET     /accounts/logout            controllers.Session.logout
+GET     /accounts/register          controllers.Session.register
+POST    /accounts/complete          controllers.Session.addUser
 
 
 # Map static resources from the /public folder to the /assets URL path

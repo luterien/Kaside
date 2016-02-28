@@ -1,32 +1,122 @@
 @(bookmarks: Seq[Bookmark], bookmarkForm: Form[BookmarkData])(implicit messages: Messages)
+<html>
+<head>
+    <title>Kaside - Bookmarking</title>
 
-<link href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")" rel="stylesheet">
+    <link href="@routes.Assets.versioned("stylesheets/main.css")" rel="stylesheet">
 
-<div class="container theme-showcase">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="@routes.Assets.versioned("lib/bootstrap/js/bootstrap.js")"></script>
 
-    <div class="jumbotron">
-        <h2>My Bookmarks</h2>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $(".newBookmarkForm").hide();
+
+            $(".addBookmark").on("click", function(){
+                if ($(".newBookmarkForm:visible").length){
+                    $(".newBookmarkForm").hide();
+                } else {
+                    $(".newBookmarkForm").show();
+                }
+            });
+
+        });
+
+    </script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+    <div class="container sw">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Kaside v1.0</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bookmarks <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Add</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Nav header</li>
+                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container sw theme-showcase">
+
+    <div class="page-header rmv-mrg row">
+        <div class="col-md-9">
+            <h4>My Bookmarks</h4>
+        </div>
+        <div class="col-md-3 go-right">
+            <h4>
+                <a class="btn btn-xs btn-default addBookmark">Add +</a>
+            </h4>
+        </div>
     </div>
 
-    @bookmarks.map { bookmark =>
-        <p>
-            <a href="@bookmark.url">@bookmark.title</a>
-            <a href="" class="btn btn-link">@bookmark.url</a>
-            @for(tag <- bookmark.tags.split(",") if !bookmark.tags.isEmpty){
-            <button type="button" class="btn btn-sm btn-success">@tag</button>
-            }
-        </p>
-    }
+    <div class="cs-cnt newBookmarkForm">
+        <div style="margin-top: 20px;">
+            <form action="@routes.BookmarkApp.add()" method="post">
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" name="title" placeholder="Title" required>
+                </div>
+                <div class="col-xs-3">
+                    <input type="text" class="form-control" name="url" placeholder="Url" required>
+                </div>
+                <div class="col-xs-4">
+                    <input type="text" class="form-control" name="tags" placeholder="Tags">
+                </div>
+                <div>
+                    <input type="submit" class="btn btn-info" value="Add">
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div>
-        <form action="@routes.BookmarkApp.add()" method="post">
-            <input type="text" name="title" placeholder="Title" required>
-            <input type="text" name="url" placeholder="Url" required>
-            <input type="text" name="tags" placeholder="Tags">
-            <input type="submit" value="Add">
-        </form>
+        @bookmarks.map { bookmark =>
+        <div class="ma-row row">
+            <div class="col-md-6">
+                <img src="@routes.Assets.versioned("images/favicon.png")" class="favicon">&nbsp;
+                <a href="@bookmark.url" target="_blank" class="btn btn-xs btn-primary">@bookmark.title</a>
+                <a href="@bookmark.url" target="_blank" class="btn btn-xs btn-default">@bookmark.url</a>
+            </div>
+            <div class="col-md-6 go-right">
+                @for(tag <- bookmark.tags.split(",") if !bookmark.tags.isEmpty){
+                <span class="btn btn-xs btn-success">@tag</span>
+                }
+                <a href="">
+                    <img src="@routes.Assets.versioned("images/settings.png")" class="favicon">
+                </a>
+            </div>
+        </div>
+        }
     </div>
 
 </div>
 
 
+</body>
+</html>

@@ -1,4 +1,3 @@
-@(bookmarks: Seq[Bookmark], bookmarkForm: Form[BookmarkData])(implicit messages: Messages)
 <html>
 <head>
     <title>Kaside - Bookmarking</title>
@@ -67,54 +66,19 @@
 
     <div class="page-header rmv-mrg row">
         <div class="col-md-9">
-            <h4>My Bookmarks</h4>
-        </div>
-        <div class="col-md-3 go-right">
-            <h4>
-                <a class="btn btn-xs btn-default addBookmark">Add +</a>
-            </h4>
+            <h4>Import My Bookmarks</h4>
         </div>
     </div>
 
-    <div class="cs-cnt newBookmarkForm">
-        <div style="margin-top: 20px;">
-            <form action="@routes.BookmarkApp.add()" method="post">
-                <div class="col-xs-3">
-                    <input type="text" class="form-control" name="title" placeholder="Title" required>
-                </div>
-                <div class="col-xs-3">
-                    <input type="text" class="form-control" name="url" placeholder="Url" required>
-                </div>
-                <div class="col-xs-4">
-                    <input type="text" class="form-control" name="tags" placeholder="Tags">
-                </div>
-                <div>
-                    <input type="submit" class="btn btn-info" value="Add">
-                </div>
-            </form>
-        </div>
-    </div>
+    @helper.form(action = routes.Files.completeUpload, 'enctype -> "multipart/form-data") {
 
+    <input type="file" name="exported_file">
 
-    <div>
-        @bookmarks.map { bookmark =>
-        <div class="ma-row row">
-            <div class="col-md-6">
-                <img src="@routes.Assets.versioned("images/favicon.png")" class="favicon">&nbsp;
-                <a href="@bookmark.url" target="_blank" class="btn btn-xs btn-primary">@bookmark.title</a>
-                <a href="@bookmark.url" target="_blank" class="btn btn-xs btn-default">@bookmark.url</a>
-            </div>
-            <div class="col-md-6 go-right">
-                @for(tag <- bookmark.tags.split(",") if !bookmark.tags.isEmpty){
-                <span class="btn btn-xs btn-success">@tag</span>
-                }
-                <a href="">
-                    <img src="@routes.Assets.versioned("images/settings.png")" class="favicon">
-                </a>
-            </div>
-        </div>
-        }
-    </div>
+    <p>
+        <input type="submit">
+    </p>
+
+    }
 
 </div>
 

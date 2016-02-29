@@ -10,19 +10,19 @@ import org.mindrot.jbcrypt.BCrypt
   * Created by asus on 26.2.2016.
   */
 
-case class Account(id: Int, email: String, password: String, name: String, role: Role)
+case class Account(id: Int, email: String, password: String, role: Role)
 
 object Account {
 
-  val defaultParser = int("id") ~ str("email") ~ str("password") ~ str("name") ~ str("role") map {
-    case id ~ email ~ pass ~ name ~ role => Account(id, email, pass, name, NormalUser)
+  val defaultParser = int("id") ~ str("email") ~ str("password") ~  str("role") map {
+    case id ~ email ~ pass ~ role => Account(id, email, pass, NormalUser)
   }
 
   def authenticate(email: String, password: String): Option[Account] =
     findByEmail(email).filter { account => BCrypt.checkpw(password, account.password) }
 
   def findByEmail(email: String): Option[Account] = DB.withConnection { implicit c =>
-    SQL("SELECT * FROM Accounts WHERE email={email}")
+    SQL("SELECT id, email, password, role FROM Accounts WHERE email={email}")
       .on('email -> email).executeQuery().singleOpt(defaultParser)
   }
 
@@ -31,10 +31,10 @@ object Account {
       .on('id -> id).executeQuery().singleOpt(defaultParser)
   }
 
-  def create(email: String, password: String, name: String, role: Role) = DB.withConnection { implicit c =>
+  def create(email: String, password: String, role: Role) = DB.withConnection { implicit c =>
     val pw_hash = BCrypt.hashpw(password, BCrypt.gensalt())
-    SQL("INSERT INTO Accounts (email, password, name, role) VALUES ({email}, {password}, {name}, {role});")
-      .on('email -> email, 'password -> pw_hash, 'name -> name, 'role -> role.toString)
+    SQL("INSERT INTO Accounts (email, password, role) VALUES ({email}, {password}, {role});")
+      .on('email -> email, 'password -> pw_hash, 'role -> role.toString)
       .executeInsert()
   }
 

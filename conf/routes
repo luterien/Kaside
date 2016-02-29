@@ -15,6 +15,10 @@ GET     /accounts/logout            controllers.Session.logout
 GET     /accounts/register          controllers.Session.register
 POST    /accounts/complete          controllers.Session.addUser
 
+# files
+GET     /files/import/              controllers.Files.upload
+POST    /files/import/              controllers.Files.completeUpload
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

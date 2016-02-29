@@ -21,10 +21,7 @@ class Session extends Controller with LoginLogout with AuthConfigImpl {
   }
 
   val registerForm = Form(
-    mapping(
-      "email" -> text,
-      "password" -> text
-    )(NewAccount.apply)(NewAccount.unapply)
+    mapping("email" -> email, "password" -> nonEmptyText)(NewAccount.apply)(NewAccount.unapply)
   )
 
   def login = Action { implicit request =>
@@ -45,7 +42,7 @@ class Session extends Controller with LoginLogout with AuthConfigImpl {
     registerForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(html.register(formWithErrors))),
       userData => {
-        Account.create(userData.email, userData.password, "", NormalUser)
+        Account.create(userData.email, userData.password, NormalUser)
         gotoLogoutSucceeded.map(_.flashing(
           "success" -> "Sign up successful"
         ))
